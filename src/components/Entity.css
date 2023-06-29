@@ -1,0 +1,48 @@
+#Entity {
+  height: auto;
+  width: 200px;
+  background-color: #2b2d42;
+  border-style: solid;
+  border-color: #edf2f4;
+  border-width: 2px;
+  border-radius: 25px;
+  padding: 3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  color: #2b2d42;
+}
+
+label {
+  font-size: 18px;
+  font-family: 'Times New Roman', Times, serif;
+  color: #8d99ae;
+}
+
+hr {
+  display: block;
+  color: #edf2f4;
+  margin: 5%;
+}
+
+ul {
+  /* No styles provided */
+}
+
+li {
+  font-size: 12px;
+  color: #8d99ae;
+  list-style: none;
+}
+
+#addNewAttribute,
+#addNewForeingKey {
+  font-size: 10px;
+  text-align: left;
+  height: 25px;
+  color: #8d99ae;
+  border-radius: 25px;
+  background-color: #2b2d42;
+}
