@@ -4,28 +4,26 @@ import 'reactflow/dist/style.css';
 import Entity from './components/Entity';
 
 function App() {
-  const nodeTypes = [
-    {
-      entity: Entity,
-    },
-  ];
-
+  const nodeTypes = {
+    entity: Entity,
+  };
   const initialNodes = [
     {
       id: crypto.randomUUID(),
       type: 'entity',
       position: {
-        x: '100px',
-        y: '100px',
+        x: 100,
+        y: 100,
       },
-      data: {},
+      data: { name: 'Entity' },
     },
   ];
 
+  const [nodes, setNodes] = useState(initialNodes);
+
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
-      <ReactFlow nodeTypes={nodeTypes} nodes={initialNodes}>
-        <Entity name={'Entity'} />
+      <ReactFlow nodeTypes={nodeTypes} nodes={nodes}>
         <Background />
         <Controls />
         <MiniMap />

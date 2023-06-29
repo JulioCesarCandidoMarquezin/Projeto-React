@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Handle, Position } from 'reactflow';
 import './Entity.css';
 
 export default function Entity(props) {
