@@ -1,4 +1,4 @@
-#Entity {
+#entity {
   height: auto;
   width: 200px;
   background-color: #2b2d42;
@@ -6,13 +6,16 @@
   border-color: #edf2f4;
   border-width: 2px;
   border-radius: 25px;
-  padding: 3%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
   text-align: center;
   color: #2b2d42;
+}
+
+#container{
+  margin: 3%;
 }
 
 label {
@@ -28,7 +31,8 @@ hr {
 }
 
 ul {
-  /* No styles provided */
+  margin-top: 10px;
+  padding: 0;
 }
 
 li {
@@ -37,12 +41,29 @@ li {
   list-style: none;
 }
 
+#newAttribute{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border: solid #8d99ae 1px;
+  border-radius: 10px;
+}
+
 #addNewAttribute,
 #addNewForeingKey {
   font-size: 10px;
   text-align: left;
-  height: 25px;
   color: #8d99ae;
-  border-radius: 25px;
+  border: none;
   background-color: #2b2d42;
+}
+
+#newAttribute input{
+  width: 40%;
+  border: none;
+  background-color: #2b2d42;
+}
+
+#newAttribute input::placeholder{
+  color: #8d99ae;
 }
