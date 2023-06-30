@@ -1,3 +1,4 @@
+
 #entity {
   height: auto;
   width: 200px;
@@ -58,9 +59,9 @@ li {
   background-color: #2b2d42;
 }
 
-#newAttribute input{
-  width: 40%;
-  border: none;
+#newAttribute input, #newAttribute input:focus{
+  width: 37%;
+  border: none ;
   background-color: #2b2d42;
 }
 

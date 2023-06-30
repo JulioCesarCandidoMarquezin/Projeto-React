@@ -1,40 +1,55 @@
 import { useState, useCallback } from 'react';
 import ReactFlow, { ConnectionMode, addEdge, applyNodeChanges, applyEdgeChanges, MiniMap, Background, Controls, useEdgesState } from 'reactflow';
 import 'reactflow/dist/style.css';
+import './App.css'
 import Entity from './components/Entity';
-import { Toolbar } from '@radix-ui/react-toolbar';
+import * as Toolbar from '@radix-ui/react-toolbar';
 
-function App() {
-  const nodeTypes = {
+ const nodeTypes = {
     entity: Entity,
   };
   const initialNodes = [
     {
-      id: 'entity1',
+      id: crypto.randomUUID(),
       type: 'entity',
       position: {
         x: 100,
         y: 100,
       },
-      data: { name: 'Entity 1' },
+      data: { name: 'Entity' },
     },
     {
-      id: 'entity2',
+      id: crypto.randomUUID(),
       type: 'entity',
       position: {
         x: 600,
         y: 100,
       },
-      data: { name: 'Entity 2' },
+      data: { name: 'Entity' },
     }
   ];
 
+function App() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
   const [nodes, setNodes, onNodesChange] = useEdgesState(initialNodes)
 
   const onConnect = useCallback((connection) =>{
     return setEdges(edges => addEdge(connection, edges))
   })
+
+  function addEntityNode() {
+    setNodes(nodes => [
+      ...nodes, {
+        id: crypto.randomUUID(),
+          type: 'entity',
+          position: {
+            x: 400,
+            y: 100,
+          },
+          data: { name: 'Entity' },
+      }
+    ])
+  }
 
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
@@ -52,6 +67,9 @@ function App() {
         <Controls />
         <MiniMap />
       </ReactFlow>
+      <Toolbar.Root id='toolbar'>
+        <Toolbar.Button onClick={addEntityNode}/>
+      </Toolbar.Root>
     </div>
   );
 }
