@@ -16,10 +16,10 @@ export default function Entity(props) {
     deve-se ser passado algum atributo que sirva de id
     para os campos na hora de criar a entidade. 
   */
- 
+
   function addNewAttribute() {
-    const name = document.getElementById('name').value;
-    const type = document.getElementById('type').value;
+    const name = document.getElementById({props.data.nameId}).value;
+    const type = document.getElementById({props.data.typeId}).value;
     const newAttribute = `${name}: ${type}`;
     setAttributes([...attributes, newAttribute]);
   }

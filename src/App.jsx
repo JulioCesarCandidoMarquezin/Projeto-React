@@ -25,7 +25,7 @@ import * as Toolbar from '@radix-ui/react-toolbar';
         x: 600,
         y: 100,
       },
-      data: { name: 'Entity' },
+      data: { name: 'Entity', nameId: `${id}+name`, typeId: `${id}+type` },
     }
   ];
 
