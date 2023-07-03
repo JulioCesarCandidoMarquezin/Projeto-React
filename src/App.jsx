@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import ReactFlow, {
   ConnectionMode,
   addEdge,
@@ -9,7 +9,8 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import './App.css';
-import Entity from './components/Entity';
+import Entity from './components/Entity/Entity';
+import Toolbar from './components/Toolbar/Toolbar';
 
 const nodeTypes = {
   entity: Entity,
@@ -25,12 +26,14 @@ const initialNodes = [
     data: {
       name: 'Entity',
       attribute: {
-        nameId: `+nameAttribute`,
-        typeId: `+typeAttribute`,
+        id: `${crypto.randomUUID()}`,
+        nameId: `${crypto.randomUUID()}`,
+        typeId: `${crypto.randomUUID()}`,
       },
-      foreingkey: {
-        nameId: `+nameForeingKey`,
-        typeId: `+typeForeingKey`,
+      foreingKey: {
+        id: `${crypto.randomUUID()}`,
+        nameId: `${crypto.randomUUID()}`,
+        typeId: `${crypto.randomUUID()}`,
       },
     },
   },
@@ -44,12 +47,14 @@ const initialNodes = [
     data: {
       name: 'Entity',
       attribute: {
-        nameId: `+nameAttribute`,
-        typeId: `+typeAttribute`,
+        id: `${crypto.randomUUID()}`,
+        nameId: `${crypto.randomUUID()}`,
+        typeId: `${crypto.randomUUID()}`,
       },
-      foreingkey: {
-        nameId: `+nameForeingKey`,
-        typeId: `+typeForeingKey`,
+      foreingKey: {
+        id: `${crypto.randomUUID()}`,
+        nameId: `${crypto.randomUUID()}`,
+        typeId: `${crypto.randomUUID()}`,
       },
     },
   },
@@ -76,12 +81,14 @@ function App() {
         data: {
           name: 'Entity',
           attribute: {
-            nameId: `+nameAttribute`,
-            typeId: `+typeAttribute`,
+            id: `${crypto.randomUUID()}`,
+            nameId: `${crypto.randomUUID()}`,
+            typeId: `${crypto.randomUUID()}`,
           },
-          foreingkey: {
-            nameId: `+nameForeingKey`,
-            typeId: `+typeForeingKey`,
+          foreingKey: {
+            id: `${crypto.randomUUID()}`,
+            nameId: `${crypto.randomUUID()}`,
+            typeId: `${crypto.randomUUID()}`,
           },
         },
       },
@@ -104,6 +111,7 @@ function App() {
         <Controls />
         <MiniMap />
       </ReactFlow>
+      <Toolbar onClick={addEntityNode} />
     </div>
   );
 }

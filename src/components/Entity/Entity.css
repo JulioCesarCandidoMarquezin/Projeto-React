@@ -1,0 +1,101 @@
+#entity {
+  height: auto;
+  width: 250px;
+  background-color: #2b2d42;
+  border-style: solid;
+  border-color: #edf2f4;
+  border-width: 2px;
+  border-radius: 25px;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  color: #2b2d42;
+  margin: 3%;
+  padding: 3%;
+}
+
+#container * {
+  color: #8d99ae;
+  background-color: #2b2d42;
+}
+
+#entityName {
+  font-size: 18px;
+  text-align: center;
+  border-radius: 25px;
+}
+
+hr {
+  display: block;
+  margin: 5%;
+}
+
+ul {
+  margin-top: 10px;
+  padding: 0;
+}
+
+li {
+  font-size: 12px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+li > * {
+  width: 100%;
+}
+
+li button {
+  width: 20%;
+}
+
+#newAttribute,
+#newForeingKey {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  border: solid 1px;
+  overflow: hidden;
+  border-radius: 25px;
+  height: 25px;
+}
+
+#newAttribute button,
+#newForeingKey button,
+#newAttribute input,
+#newForeingKey input {
+  flex-shrink: 0;
+}
+
+#newAttribute button,
+#newForeingKey button {
+  border-radius: 50%;
+}
+
+#newAttribute input[type='text'],
+#newForeingKey input[type='text'] {
+  flex-grow: 1;
+  width: 0;
+  height: 100%;
+}
+
+#newAttribute input[type='text']:first-child,
+#newForeingKey input[type='text']:first-child {
+  margin-right: 5px;
+}
+
+input {
+  border: none;
+}
+
+input::placeholder {
+  text-align: center;
+  color: #8d99ae;
+}
