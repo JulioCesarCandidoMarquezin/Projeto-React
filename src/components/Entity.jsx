@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './Entity.css';
 import { Handle, Position } from 'reactflow';
 
@@ -6,26 +6,17 @@ export default function Entity(props) {
   const [attributes, setAttributes] = useState([]);
   const [foreingKeys, setForeingKeys] = useState([]);
 
-  useEffect(() => {}, [attributes]);
-
-  useEffect(() => {}, [foreingKeys]);
-
-  /* 
-    Erro: todos os inpus tem o mesmo id, sendo assim, 
-    é pego o valor só do campo da entidade original,
-    deve-se ser passado algum atributo que sirva de id
-    para os campos na hora de criar a entidade. 
-  */
-
-  function addNewAttribute() {
-    const name = document.getElementById({props.data.nameId}).value;
-    const type = document.getElementById({props.data.typeId}).value;
+  function addNewAttribute(nameId, typeId) {
+    const name = document.getElementById({ nameId });
+    const type = document.getElementById({ typeId });
     const newAttribute = `${name}: ${type}`;
     setAttributes([...attributes, newAttribute]);
   }
 
-  function addNewForeingKey() {
-    const newForeingKey = 'new foreign key';
+  function addNewForeingKey(nameId, typeId) {
+    const name = document.getElementById({ nameId });
+    const type = document.getElementById({ typeId });
+    const newForeingKey = `${name}: ${type}`;
     setForeingKeys([...foreingKeys, newForeingKey]);
   }
 
@@ -37,7 +28,7 @@ export default function Entity(props) {
       <Handle id="left" position={Position.Left} />
 
       <div id="container">
-        <label>{props.data.name}</label>
+        <input id="entityName" placeholder={props.data.name}></input>
 
         <hr />
 
@@ -45,25 +36,48 @@ export default function Entity(props) {
           {attributes.map((attribute, index) => {
             return (
               <li key={index}>
-                <button>X</button>{attribute}
+                <button>X</button>
+                <input>{attribute.name}</input>
+                <input>{attribute.type}</input>
               </li>
             );
           })}
         </ul>
 
         <div id="newAttribute">
-          <button id="addNewAttribute" onClick={addNewAttribute}>
+          <button
+            id="addNewAttribute"
+            onClick={() => {
+              addNewAttribute(
+                props.data.attribute.nameId,
+                props.data.attribute.typeId
+              );
+            }}
+          >
             +
           </button>
-          <input id="name" type="text" placeholder="name" />
-          <input id="type" type="text" placeholder="type" />
+          <input
+            id={props.data.attribute.nameId}
+            type="text"
+            placeholder="name"
+          />
+          <input
+            id={props.data.attribute.typeId}
+            type="text"
+            placeholder="type"
+          />
         </div>
 
         <hr />
 
         <ul>
           {foreingKeys.map((foreingKey, index) => {
-            return <li key={index}>{foreingKey}</li>;
+            return (
+              <li key={index}>
+                <input>{foreingKey.name}</input>
+                <input>{foreingKey.type}</input>
+              </li>
+            );
           })}
         </ul>
 

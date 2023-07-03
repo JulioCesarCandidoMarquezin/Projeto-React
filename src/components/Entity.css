@@ -1,4 +1,3 @@
-
 #entity {
   height: auto;
   width: 200px;
@@ -7,27 +6,30 @@
   border-color: #edf2f4;
   border-width: 2px;
   border-radius: 25px;
+}
+
+#container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
   text-align: center;
   color: #2b2d42;
-}
-
-#container{
   margin: 3%;
 }
 
-label {
-  font-size: 18px;
-  font-family: 'Times New Roman', Times, serif;
+#container * {
   color: #8d99ae;
+  background-color: #2b2d42;
+}
+
+#entityName {
+  font-size: 18px;
+  text-align: center;
 }
 
 hr {
   display: block;
-  color: #edf2f4;
   margin: 5%;
 }
 
@@ -38,33 +40,44 @@ ul {
 
 li {
   font-size: 12px;
-  color: #8d99ae;
   list-style: none;
 }
 
-#newAttribute{
+#newAttribute {
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  border: solid #8d99ae 1px;
-  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  border: solid 1px;
+  overflow: hidden;
+  border-radius: 25px;
+  height: 25px;
 }
 
-#addNewAttribute,
-#addNewForeingKey {
-  font-size: 10px;
-  text-align: left;
-  color: #8d99ae;
+#newAttribute button,
+#newAttribute input {
+  flex-shrink: 0;
+}
+
+#newAttribute button {
+  border-radius: 50%;
+}
+
+#newAttribute input[type='text'] {
+  flex-grow: 1;
+  width: 0;
+  height: 100%;
+}
+
+#newAttribute input[type='text']:first-child {
+  margin-right: 5px;
+}
+
+input {
   border: none;
-  background-color: #2b2d42;
 }
 
-#newAttribute input, #newAttribute input:focus{
-  width: 37%;
-  border: none ;
-  background-color: #2b2d42;
-}
-
-#newAttribute input::placeholder{
+input::placeholder {
+  text-align: center;
   color: #8d99ae;
 }
