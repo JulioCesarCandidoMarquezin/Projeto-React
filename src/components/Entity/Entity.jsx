@@ -9,27 +9,49 @@ export default function Entity(props) {
   function addNewAttribute(nameId, typeId) {
     const name = document.getElementById(nameId);
     const type = document.getElementById(typeId);
-    const newAttribute = {
-      id: Date.now(),
-      name: name.value,
-      type: type.value,
-    };
-    setAttributes([...attributes, newAttribute]);
-    name.value = '';
-    type.value = '';
+    if (
+      !(
+        name.value === null ||
+        name.value === undefined ||
+        name.value === '' ||
+        type.value === null ||
+        type.value === undefined ||
+        type.value === ''
+      )
+    ) {
+      const newAttribute = {
+        id: Date.now(),
+        name: name.value,
+        type: type.value,
+      };
+      setAttributes([...attributes, newAttribute]);
+      name.value = '';
+      type.value = '';
+    }
   }
 
   function addNewForeingKey(nameId, typeId) {
     const name = document.getElementById(nameId);
     const type = document.getElementById(typeId);
-    const newForeingKey = {
-      id: Date.now(),
-      name: name.value,
-      type: type.value,
-    };
-    setForeingKeys([...foreingKeys, newForeingKey]);
-    name.value = '';
-    type.value = '';
+    if (
+      !(
+        name.value === null ||
+        name.value === undefined ||
+        name.value === '' ||
+        type.value === null ||
+        type.value === undefined ||
+        type.value === ''
+      )
+    ) {
+      const newForeingKey = {
+        id: Date.now(),
+        name: name.value,
+        type: type.value,
+      };
+      setForeingKeys([...foreingKeys, newForeingKey]);
+      name.value = '';
+      type.value = '';
+    }
   }
 
   function deleteAttribute(id) {

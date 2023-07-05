@@ -6,14 +6,20 @@ import ReactFlow, {
   Background,
   Controls,
   useEdgesState,
+  useNodesState,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import './App.css';
 import Entity from './components/Entity/Entity';
 import Toolbar from './components/Toolbar/Toolbar';
+import NavBar from './components/NavBar/NavBar';
+import CustomEdge from './components/CustomEdge/CustomEdge';
 
 const nodeTypes = {
   entity: Entity,
+};
+const edgeTypes = {
+  customEdge: CustomEdge,
 };
 const initialNodes = [
   {
@@ -24,7 +30,7 @@ const initialNodes = [
       y: 100,
     },
     data: {
-      name: 'Entity',
+      name: 'Funcionário',
       attribute: {
         id: `${crypto.randomUUID()}`,
         nameId: `${crypto.randomUUID()}`,
@@ -45,7 +51,7 @@ const initialNodes = [
       y: 100,
     },
     data: {
-      name: 'Entity',
+      name: 'Setor',
       attribute: {
         id: `${crypto.randomUUID()}`,
         nameId: `${crypto.randomUUID()}`,
@@ -59,13 +65,41 @@ const initialNodes = [
     },
   },
 ];
+const initialEdges = [
+  {
+    id: crypto.randomUUID(),
+    source: initialNodes[0].id,
+    target: initialNodes[1].id,
+    type: 'customEdge',
+  },
+];
 
 function App() {
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [nodes, setNodes, onNodesChange] = useEdgesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const onConnect = useCallback((connection) => {
-    return setEdges((edges) => addEdge(connection, edges));
+    const { source, sourceHandle, target, targetHandle } = connection;
+
+    const hasOutgoingEdge = edges.some(
+      (edge) =>
+        (edge.source === source || edge.target === source) &&
+        (edge.target === target || edge.target === source)
+    );
+
+    if (hasOutgoingEdge) {
+      return;
+    }
+
+    const newEdge = {
+      id: crypto.randomUUID(),
+      source: source,
+      target: target,
+      sourceHandle: sourceHandle,
+      targetHandle: targetHandle,
+      type: 'customEdge',
+    };
+    return setEdges((edges) => addEdge(newEdge, edges));
   });
 
   function addEntityNode() {
@@ -101,6 +135,7 @@ function App() {
         nodeTypes={nodeTypes}
         nodes={nodes}
         onNodesChange={onNodesChange}
+        edgeTypes={edgeTypes}
         edges={edges}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
@@ -111,6 +146,7 @@ function App() {
         <Controls />
         <MiniMap />
       </ReactFlow>
+      <NavBar />
       <Toolbar onClick={addEntityNode} />
     </div>
   );
