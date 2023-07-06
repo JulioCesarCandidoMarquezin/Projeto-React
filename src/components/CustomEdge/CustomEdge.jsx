@@ -2,26 +2,30 @@ import React, { useState } from 'react';
 import { getBezierPath, BaseEdge } from 'reactflow';
 import './CustomEdge.css';
 
-function EditableEdgeLabel({ x, y }) {
-  const [value, setValue] = useState('0:0');
+export let valueEdges
+
+function EdgeLabel({ x, y }) {
+  const [value, setValue] = useState('1:1');
+  valueEdges = value
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
-  const handleBlur = () => {
-    const [newMin, newMax] = value.split(':');
-    onUpdate({ min: newMin, max: newMax });
-  };
-
   return (
-    <foreignObject x={x - 25} y={y - 25} width={50} height={50}>
-      <input className="input"
-        type="text"
-        value={value}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
+    <foreignObject
+      className="foreignObject"
+      x={x - 25}
+      y={y - 25}
+      width={70}
+      height={70}
+    >
+      <select className="select" value={value} onChange={handleChange}>
+        <option value="1:1">1:1</option>
+        <option value="1:N">1:N</option>
+        <option value="N:1">N:1</option>
+        <option value="N:N">N:N</option>
+      </select>
     </foreignObject>
   );
 }
@@ -47,8 +51,8 @@ function CustomEdge({
   return (
     <>
       <BaseEdge id={id} path={edgePath} />
-      <EditableEdgeLabel x={sourceX} y={sourceY} />
-      <EditableEdgeLabel x={targetX} y={targetY} />
+      <EdgeLabel x={sourceX} y={sourceY} />
+      <EdgeLabel x={targetX} y={targetY} />
     </>
   );
 }
