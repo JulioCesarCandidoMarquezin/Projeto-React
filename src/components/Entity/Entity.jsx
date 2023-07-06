@@ -2,15 +2,9 @@ import { useState } from 'react';
 import './Entity.css';
 import { Handle, Position } from 'reactflow';
 
-export let exportAttributes
-export let exportForeingKeys
-
 export default function Entity(props) {
   const [attributes, setAttributes] = useState([]);
   const [foreingKeys, setForeingKeys] = useState([]);
-  exportAttributes = attributes
-  exportForeingKeys = foreingKeys
-
 
   function addNewAttribute(nameId, typeId) {
     const name = document.getElementById(nameId);

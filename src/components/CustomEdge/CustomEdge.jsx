@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import { getBezierPath, BaseEdge } from 'reactflow';
 import './CustomEdge.css';
 
-export let valueEdges
-
 function EdgeLabel({ x, y }) {
   const [value, setValue] = useState('1:1');
-  valueEdges = value
 
   const handleChange = (event) => {
     setValue(event.target.value);

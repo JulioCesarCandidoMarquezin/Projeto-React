@@ -7,5 +7,3 @@ export default function NavBar() {
     </div>
   );
 }
-
-export let nameDB = document.getElementById('inputName').value;
