@@ -12,8 +12,12 @@ import 'reactflow/dist/style.css';
 import './App.css';
 import Entity from './components/Entity/Entity';
 import Toolbar from './components/Toolbar/Toolbar';
-import NavBar from './components/NavBar/NavBar';
+import NavBar, {setDataBaseName} from './components/NavBar/NavBar';
 import CustomEdge from './components/CustomEdge/CustomEdge';
+import createSQLCode from './generateCodeSQL'
+
+export let Entitys
+export let Relationships
 
 const nodeTypes = {
   entity: Entity,
@@ -78,6 +82,9 @@ function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  Entitys = nodes
+  Relationships = edges
+
   const onConnect = useCallback((connection) => {
     const { source, sourceHandle, target, targetHandle } = connection;
 
@@ -129,6 +136,12 @@ function App() {
     ]);
   }
 
+  function clearWindow() {
+    setNodes([])
+    setEdges([])
+    setDataBaseName("")
+  }
+
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       <ReactFlow
@@ -146,8 +159,8 @@ function App() {
         <Controls />
         <MiniMap />
       </ReactFlow>
-      <NavBar value={"Dotum"}/>
-      <Toolbar onClick={addEntityNode} />
+      <NavBar value={"Dotum"} placeholder={"Entity"} />
+      <Toolbar addNode={addEntityNode} generateSQLCode={createSQLCode} clearWindow={clearWindow}/>
     </div>
   );
 }

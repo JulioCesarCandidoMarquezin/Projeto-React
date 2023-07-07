@@ -1,9 +1,18 @@
 import './NavBar.css';
 
-export default function NavBar({value}) {
+export function getDataBaseName() {
+  return document.getElementById("dataBaseName").value
+}
+
+export function setDataBaseName(newName) {
+  document.getElementById("dataBaseName").value = newName
+  return 
+}
+
+export default function NavBar({value, placeholder}) {
   return (
     <div id="NavBar">
-      <input id="inputName" defaultValue={value} placeholder='Title'/>
+      <input id="dataBaseName" defaultValue={value} placeholder={placeholder}/>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-#entity {
+.entity {
   height: auto;
   width: 250px;
   background-color: #2b2d42;
@@ -97,6 +97,7 @@ li button {
 }
 
 input {
+  text-align: center;
   border: none;
 }
 

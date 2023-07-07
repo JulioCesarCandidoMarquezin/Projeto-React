@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import { getBezierPath, BaseEdge } from "reactflow";
 import "./CustomEdge.css";
 
-function EdgeLabel({ sourceX, sourceY, targetX, targetY }) {
+export let RelationshipsValues = []
+
+function EdgeLabel({ sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition }) {
   // contar o tanto de arestas pra advinhar o relacionamento
   const [value, setValue] = useState({ source: "1:1", target: "1:1" });
+
+  RelationshipsValues = [...RelationshipsValues, value]
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -25,7 +29,7 @@ function EdgeLabel({ sourceX, sourceY, targetX, targetY }) {
           <option value="N:N">N:N</option>
         </select>
       </foreignObject>
-      
+
       <foreignObject
         className="foreignObject"
         x={targetX - 25}
@@ -64,7 +68,7 @@ function CustomEdge({
   return (
     <>
       <BaseEdge id={id} path={edgePath} />
-      <EdgeLabel sourceX={sourceX} sourceY={sourceY} targetX={targetX} targetY={targetY}/>
+      <EdgeLabel sourceX={sourceX} sourceY={sourceY} targetX={targetX} targetY={targetY} sourcePosition={sourcePosition} targetPosition={targetPosition}/>
     </>
   );
 }

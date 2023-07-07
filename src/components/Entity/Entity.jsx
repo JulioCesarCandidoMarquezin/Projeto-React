@@ -2,31 +2,33 @@ import { useState } from "react";
 import "./Entity.css";
 import { Handle, Position } from "reactflow";
 
-function SelectWithMySQLDataTypes({type}) {
+export let Entitys = []
+
+function SelectWithMySQLDataTypes({ type }) {
   return (
     <select defaultValue={type}>
-    <option value="char">Char</option>
-    <option value="varchar">Varchar</option>
-    <option value="tinytext">Tinytext</option>
-    <option value="text">Text</option>
-    <option value="blob">Blob</option>
-    <option value="mediumtext">MediumText</option>
-    <option value="mediumblob">MediumBlob</option>
-    <option value="tinyint">TinyInt</option>
-    <option value="smallint">SmallInt</option>
-    <option value="mediumint">MediumInt</option>
-    <option value="int">Int</option>
-    <option value="bigint">BigInt</option>
-    <option value="float">Float</option>
-    <option value="double">Double</option>
-    <option value="decimal">Decimal</option>
-    <option value="date">Date</option>
-    <option value="datetime">DateTime</option>
-    <option value="timestamp">TimeStamp</option>
-    <option value="time">Time</option>
-    <option value="boolean">Boolean</option>
-  </select>
-  )
+      <option value="char">Char</option>
+      <option value="varchar">Varchar</option>
+      <option value="tinytext">Tinytext</option>
+      <option value="text">Text</option>
+      <option value="blob">Blob</option>
+      <option value="mediumtext">MediumText</option>
+      <option value="mediumblob">MediumBlob</option>
+      <option value="tinyint">TinyInt</option>
+      <option value="smallint">SmallInt</option>
+      <option value="mediumint">MediumInt</option>
+      <option value="int">Int</option>
+      <option value="bigint">BigInt</option>
+      <option value="float">Float</option>
+      <option value="double">Double</option>
+      <option value="decimal">Decimal</option>
+      <option value="date">Date</option>
+      <option value="datetime">DateTime</option>
+      <option value="timestamp">TimeStamp</option>
+      <option value="time">Time</option>
+      <option value="boolean">Boolean</option>
+    </select>
+  );
 }
 
 function ComponentList({ components, onClick }) {
@@ -43,7 +45,9 @@ function ComponentList({ components, onClick }) {
               X
             </button>
             <input defaultValue={component.name} />
-            <SelectWithMySQLDataTypes type={component.type}></SelectWithMySQLDataTypes>
+            <SelectWithMySQLDataTypes
+              type={component.type}
+            ></SelectWithMySQLDataTypes>
           </li>
         );
       })}
@@ -89,25 +93,40 @@ function AddNewComponetList({ id, onClick, nameId, typeId }) {
   );
 }
 
+function checkIfInputIsValid(input) {
+  return !(
+    input === null ||
+    input === undefined ||
+    input.trim() === "" ||
+    !/^[A-Za-z0-9_$]+$/.test(input)
+  );
+}
+
 export default function Entity(props) {
+  /* 
+  Colocar o atributo PRIMARY KEY nos atributos, 
+  colocar um botão do lado pra escolher se ele vai ou não ser PRIMARY KEY,
+  se um for definido os outros ficam com o atributo como FALSE
+  */
   const [attributes, setAttributes] = useState([]);
   const [foreingKeys, setForeingKeys] = useState([]);
+
+  Entitys = [...Entitys, {
+    id: props.id,
+    name: props.name,
+    attributes: [attributes],
+    foreingKeys: [foreingKeys],
+  }, ]
 
   function addNewAttribute(nameId, typeId) {
     const name = document.getElementById(nameId);
     const type = document.getElementById(typeId);
     if (
-      !(
-        name.value === null ||
-        name.value === undefined ||
-        name.value.trim() === "" ||
-        type.value === null ||
-        type.value === undefined ||
-        type.value.trim() === ""
-      )
+      checkIfInputIsValid(name.value)
     ) {
       const newAttribute = {
-        id: Date.now(),
+        id: props.data.attribute.id + Date.now(),
+        PK: false,
         name: name.value.trim(),
         type: type.value.trim(),
       };
@@ -120,18 +139,9 @@ export default function Entity(props) {
   function addNewForeingKey(nameId, typeId) {
     const name = document.getElementById(nameId);
     const type = document.getElementById(typeId);
-    if (
-      !(
-        name.value === null ||
-        name.value === undefined ||
-        name.value.trim() === "" ||
-        type.value === null ||
-        type.value === undefined ||
-        type.value.trim() === ""
-      )
-    ) {
+    if (checkIfInputIsValid(name.value)) {
       const newForeingKey = {
-        id: Date.now(),
+        id: props.data.foreingKey.id + Date.now(),
         name: name.value.trim(),
         type: type.value.trim(),
       };
@@ -149,8 +159,12 @@ export default function Entity(props) {
     setForeingKeys(foreingKeys.filter((foreingKey) => foreingKey.id !== id));
   }
 
+  function changePK(id) {
+    setAttributes(attributes.map((attribute) => (attribute.id === id) ? attribute.PK = true : attribute.PK = false))
+  }
+
   return (
-    <div id="entity">
+    <div id={props.id} className="entity">
       <Handle id="top" position={Position.Top} />
       <Handle id="bottom" position={Position.Bottom} />
       <Handle id="right" position={Position.Right} />
