@@ -108,8 +108,8 @@ export default function Entity(props) {
     ) {
       const newAttribute = {
         id: Date.now(),
-        name: name.value,
-        type: type.value,
+        name: name.value.trim(),
+        type: type.value.trim(),
       };
       setAttributes([...attributes, newAttribute]);
       name.value = "";
@@ -132,8 +132,8 @@ export default function Entity(props) {
     ) {
       const newForeingKey = {
         id: Date.now(),
-        name: name.value,
-        type: type.value,
+        name: name.value.trim(),
+        type: type.value.trim(),
       };
       setForeingKeys([...foreingKeys, newForeingKey]);
       name.value = "";
