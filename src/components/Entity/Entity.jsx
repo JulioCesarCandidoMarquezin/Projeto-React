@@ -100,10 +100,10 @@ export default function Entity(props) {
       !(
         name.value === null ||
         name.value === undefined ||
-        name.value === "" ||
+        name.value.trim() === "" ||
         type.value === null ||
         type.value === undefined ||
-        type.value === ""
+        type.value.trim() === ""
       )
     ) {
       const newAttribute = {
@@ -124,10 +124,10 @@ export default function Entity(props) {
       !(
         name.value === null ||
         name.value === undefined ||
-        name.value === "" ||
+        name.value.trim() === "" ||
         type.value === null ||
         type.value === undefined ||
-        type.value === ""
+        type.value.trim() === ""
       )
     ) {
       const newForeingKey = {
