@@ -1,6 +1,93 @@
-import { useState } from 'react';
-import './Entity.css';
-import { Handle, Position } from 'reactflow';
+import { useState } from "react";
+import "./Entity.css";
+import { Handle, Position } from "reactflow";
+
+function SelectWithMySQLDataTypes({type}) {
+  return (
+    <select defaultValue={type}>
+    <option value="char">Char</option>
+    <option value="varchar">Varchar</option>
+    <option value="tinytext">Tinytext</option>
+    <option value="text">Text</option>
+    <option value="blob">Blob</option>
+    <option value="mediumtext">MediumText</option>
+    <option value="mediumblob">MediumBlob</option>
+    <option value="tinyint">TinyInt</option>
+    <option value="smallint">SmallInt</option>
+    <option value="mediumint">MediumInt</option>
+    <option value="int">Int</option>
+    <option value="bigint">BigInt</option>
+    <option value="float">Float</option>
+    <option value="double">Double</option>
+    <option value="decimal">Decimal</option>
+    <option value="date">Date</option>
+    <option value="datetime">DateTime</option>
+    <option value="timestamp">TimeStamp</option>
+    <option value="time">Time</option>
+    <option value="boolean">Boolean</option>
+  </select>
+  )
+}
+
+function ComponentList({ components, onClick }) {
+  return (
+    <ul>
+      {components.map((component) => {
+        return (
+          <li>
+            <button
+              onClick={() => {
+                onClick(component.id);
+              }}
+            >
+              X
+            </button>
+            <input defaultValue={component.name} />
+            <SelectWithMySQLDataTypes type={component.type}></SelectWithMySQLDataTypes>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+function AddNewComponetList({ id, onClick, nameId, typeId }) {
+  return (
+    <div id="newForeingKey">
+      <button
+        id={id}
+        onClick={() => {
+          onClick(nameId, typeId);
+        }}
+      >
+        +
+      </button>
+      <input id={nameId} type="text" placeholder="name" />
+      <select id={typeId}>
+        <option value="char">Char</option>
+        <option value="varchar">Varchar</option>
+        <option value="tinytext">Tinytext</option>
+        <option value="text">Text</option>
+        <option value="blob">Blob</option>
+        <option value="mediumtext">MediumText</option>
+        <option value="mediumblob">MediumBlob</option>
+        <option value="tinyint">TinyInt</option>
+        <option value="smallint">SmallInt</option>
+        <option value="mediumint">MediumInt</option>
+        <option value="int">Int</option>
+        <option value="bigint">BigInt</option>
+        <option value="float">Float</option>
+        <option value="double">Double</option>
+        <option value="decimal">Decimal</option>
+        <option value="date">Date</option>
+        <option value="datetime">DateTime</option>
+        <option value="timestamp">TimeStamp</option>
+        <option value="time">Time</option>
+        <option value="boolean">Boolean</option>
+      </select>
+    </div>
+  );
+}
 
 export default function Entity(props) {
   const [attributes, setAttributes] = useState([]);
@@ -13,10 +100,10 @@ export default function Entity(props) {
       !(
         name.value === null ||
         name.value === undefined ||
-        name.value === '' ||
+        name.value === "" ||
         type.value === null ||
         type.value === undefined ||
-        type.value === ''
+        type.value === ""
       )
     ) {
       const newAttribute = {
@@ -25,8 +112,8 @@ export default function Entity(props) {
         type: type.value,
       };
       setAttributes([...attributes, newAttribute]);
-      name.value = '';
-      type.value = '';
+      name.value = "";
+      type.value = "char";
     }
   }
 
@@ -37,10 +124,10 @@ export default function Entity(props) {
       !(
         name.value === null ||
         name.value === undefined ||
-        name.value === '' ||
+        name.value === "" ||
         type.value === null ||
         type.value === undefined ||
-        type.value === ''
+        type.value === ""
       )
     ) {
       const newForeingKey = {
@@ -49,8 +136,8 @@ export default function Entity(props) {
         type: type.value,
       };
       setForeingKeys([...foreingKeys, newForeingKey]);
-      name.value = '';
-      type.value = '';
+      name.value = "";
+      type.value = "char";
     }
   }
 
@@ -72,97 +159,37 @@ export default function Entity(props) {
       <div id="container">
         <input
           id="entityName"
-          placeholder={props.data.name}
+          placeholder="Entity"
           defaultValue={props.data.name}
         />
 
         <hr />
 
-        <ul>
-          {attributes.map((attribute) => {
-            return (
-              <li>
-                <button
-                  onClick={() => {
-                    deleteAttribute(attribute.id);
-                  }}
-                >
-                  X
-                </button>
-                <input defaultValue={attribute.name} />
-                <input defaultValue={attribute.type} />
-              </li>
-            );
-          })}
-        </ul>
+        <ComponentList
+          components={attributes}
+          onClick={deleteAttribute}
+        ></ComponentList>
 
-        <div id="newAttribute">
-          <button
-            id="addNewAttribute"
-            onClick={() => {
-              addNewAttribute(
-                props.data.attribute.nameId,
-                props.data.attribute.typeId
-              );
-            }}
-          >
-            +
-          </button>
-          <input
-            id={props.data.attribute.nameId}
-            type="text"
-            placeholder="name"
-          />
-          <input
-            id={props.data.attribute.typeId}
-            type="text"
-            placeholder="type"
-          />
-        </div>
+        <AddNewComponetList
+          id={"newAttribute"}
+          onClick={addNewAttribute}
+          nameId={props.data.attribute.nameId}
+          typeId={props.data.attribute.typeId}
+        ></AddNewComponetList>
 
         <hr />
 
-        <ul>
-          {foreingKeys.map((foreingKey) => {
-            return (
-              <li>
-                <button
-                  onClick={() => {
-                    deleteForeingKey(foreingKey.id);
-                  }}
-                >
-                  X
-                </button>
-                <input defaultValue={foreingKey.name} />
-                <input defaultValue={foreingKey.type} />
-              </li>
-            );
-          })}
-        </ul>
+        <ComponentList
+          components={foreingKeys}
+          onClick={deleteForeingKey}
+        ></ComponentList>
 
-        <div id="newForeingKey">
-          <button
-            id="addNewForeingKey"
-            onClick={() => {
-              addNewForeingKey(
-                props.data.foreingKey.nameId,
-                props.data.foreingKey.typeId
-              );
-            }}
-          >
-            +
-          </button>
-          <input
-            id={props.data.foreingKey.nameId}
-            type="text"
-            placeholder="name"
-          />
-          <input
-            id={props.data.foreingKey.typeId}
-            type="text"
-            placeholder="type"
-          />
-        </div>
+        <AddNewComponetList
+          id={"newForeingKey"}
+          onClick={addNewForeingKey}
+          nameId={props.data.foreingKey.nameId}
+          typeId={props.data.foreingKey.typeId}
+        ></AddNewComponetList>
       </div>
     </div>
   );

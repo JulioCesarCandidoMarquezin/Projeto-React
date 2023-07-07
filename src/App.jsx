@@ -47,7 +47,7 @@ const initialNodes = [
     id: crypto.randomUUID(),
     type: 'entity',
     position: {
-      x: 600,
+      x: 700,
       y: 100,
     },
     data: {
@@ -83,7 +83,7 @@ function App() {
 
     const hasOutgoingEdge = edges.some(
       (edge) =>
-        (edge.source === source || edge.target === source) &&
+        (edge.source === source || edge.source === target) &&
         (edge.target === target || edge.target === source)
     );
 
@@ -109,7 +109,7 @@ function App() {
         id: crypto.randomUUID(),
         type: 'entity',
         position: {
-          x: 600,
+          x: 400,
           y: 100,
         },
         data: {
@@ -146,7 +146,7 @@ function App() {
         <Controls />
         <MiniMap />
       </ReactFlow>
-      <NavBar />
+      <NavBar value={"Dotum"}/>
       <Toolbar onClick={addEntityNode} />
     </div>
   );

@@ -1,29 +1,45 @@
-import React, { useState } from 'react';
-import { getBezierPath, BaseEdge } from 'reactflow';
-import './CustomEdge.css';
+import React, { useState } from "react";
+import { getBezierPath, BaseEdge } from "reactflow";
+import "./CustomEdge.css";
 
-function EdgeLabel({ x, y }) {
-  const [value, setValue] = useState('1:1');
+function EdgeLabel({ sourceX, sourceY, targetX, targetY }) {
+  // contar o tanto de arestas pra advinhar o relacionamento
+  const [value, setValue] = useState({ source: "1:1", target: "1:1" });
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
   return (
-    <foreignObject
-      className="foreignObject"
-      x={x - 25}
-      y={y - 25}
-      width={70}
-      height={70}
-    >
-      <select className="select" value={value} onChange={handleChange}>
-        <option value="1:1">1:1</option>
-        <option value="1:N">1:N</option>
-        <option value="N:1">N:1</option>
-        <option value="N:N">N:N</option>
-      </select>
-    </foreignObject>
+    <>
+      <foreignObject
+        className="foreignObject"
+        x={sourceX - 25}
+        y={sourceY - 25}
+        width={70}
+        height={70}
+      >
+        <select className="select" value={value.source} onChange={handleChange}>
+          <option value="1:1">1:1</option>
+          <option value="1:N">1:N</option>
+          <option value="N:N">N:N</option>
+        </select>
+      </foreignObject>
+      
+      <foreignObject
+        className="foreignObject"
+        x={targetX - 25}
+        y={targetY - 25}
+        width={70}
+        height={70}
+      >
+        <select className="select" value={value.target} onChange={handleChange}>
+          <option value="1:1">1:1</option>
+          <option value="1:N">1:N</option>
+          <option value="N:N">N:N</option>
+        </select>
+      </foreignObject>
+    </>
   );
 }
 
@@ -48,8 +64,7 @@ function CustomEdge({
   return (
     <>
       <BaseEdge id={id} path={edgePath} />
-      <EdgeLabel x={sourceX} y={sourceY} />
-      <EdgeLabel x={targetX} y={targetY} />
+      <EdgeLabel sourceX={sourceX} sourceY={sourceY} targetX={targetX} targetY={targetY}/>
     </>
   );
 }
