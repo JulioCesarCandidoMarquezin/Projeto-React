@@ -33,7 +33,6 @@ const initialNodes = [
     data: {
       name: 'Funcionário',
       attribute: {
-        id: `${crypto.randomUUID()}`,
         nameId: `${crypto.randomUUID()}`,
         typeId: `${crypto.randomUUID()}`,
       },
@@ -54,12 +53,10 @@ const initialNodes = [
     data: {
       name: 'Setor',
       attribute: {
-        id: `${crypto.randomUUID()}`,
         nameId: `${crypto.randomUUID()}`,
         typeId: `${crypto.randomUUID()}`,
       },
       foreingKey: {
-        id: `${crypto.randomUUID()}`,
         nameId: `${crypto.randomUUID()}`,
         typeId: `${crypto.randomUUID()}`,
       },
@@ -116,12 +113,10 @@ function App() {
         data: {
           name: 'Entity',
           attribute: {
-            id: `${crypto.randomUUID()}`,
             nameId: `${crypto.randomUUID()}`,
             typeId: `${crypto.randomUUID()}`,
           },
           foreingKey: {
-            id: `${crypto.randomUUID()}`,
             nameId: `${crypto.randomUUID()}`,
             typeId: `${crypto.randomUUID()}`,
           },
@@ -144,7 +139,9 @@ function App() {
     },
     {
       id: 'generateSQL',
-      onClick: createSQLCode,
+      onClick: () => {
+        createSQLCode(nodes)
+      },
       content: <img id="image" src='src\images\SQLImage.jpeg' />,
     },
     {

@@ -2,16 +2,12 @@ import React, { useState } from "react";
 import { getBezierPath, BaseEdge } from "reactflow";
 import "./CustomEdge.css";
 
-export let RelationshipsValues = []
-
 function EdgeLabel({ sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition }) {
-  // contar o tanto de arestas pra advinhar o relacionamento
   const [value, setValue] = useState({ source: "1:1", target: "1:1" });
-
-  RelationshipsValues = [...RelationshipsValues, value]
 
   const handleChange = (event) => {
     setValue(event.target.value);
+    console.log(value);
   };
 
   return (

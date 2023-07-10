@@ -1,47 +1,43 @@
-import { getDataBaseName } from "./components/NavBar/NavBar";
-import { Relationships } from "./App";
-import { Entitys } from "./components/Entity/Entity";
-import { RelationshipsValues } from "./components/CustomEdge/CustomEdge";
+import { getDataBaseName } from "./components/Header/Header";
 
-export default function createSQLCode() {
+export default function createSQLCode(entitys) {
+  console.log(entitys[0]);
   let SQLCode = "";
   SQLCode = SQLCode.concat(createDataBase());
+  SQLCode = SQLCode.concat(`${createTables(entitys)}`);
+  alert(SQLCode);
   return SQLCode;
 }
 
 function createDataBase() {
   let dataBaseCode = `CREATE DATABASE ${getDataBaseName()}; \n`;
-  dataBaseCode = dataBaseCode.concat(`USE ${getDataBaseName()}; \n`);
-  dataBaseCode = dataBaseCode.concat(`${createTables()}; \n`)
+  let dataBaseName =
+    getDataBaseName() !== "" ? getDataBaseName() : "dataBaseName";
+  dataBaseCode = dataBaseCode.concat(`USE ${dataBaseName}; \n`);
   return dataBaseCode;
 }
 
-function createTables() {
-  let tablesCode = ''
-  Entitys.forEach((entity) => {
-    tablesCode = tablesCode.concat(`CREATE TABLE ${entity.name} ( ${createAttributes(entity)} ); \n`);
+function createTables(entitys, attributes, foreingKeys) {
+  let tablesCode = "";
+  entitys.forEach((entity) => {
+    console.log("attributes: ", attributes);
+    console.log("foreingKeys: ", foreingKeys);  
+    tablesCode = tablesCode.concat(
+      `CREATE TABLE ${entity.data.name} (${createAttributes(entity)});\n`
+    );
   });
   return tablesCode;
 }
 
 function createAttributes(entity) {
-    let attributesCode = ''
-    `${entity.attributes.forEach((attribute) => {
-        /* 
-          Talvez dê erro por causa da virgula colocada depois do atributo,
-          pode ser que o SQL não aceite essa virgula no final.
-          */
-          attributesCode = attributesCode.concat(` ${attribute.name} ${attribute.type}
-          ${attribute.PK ? " PRIMARY KEY" : ""}, `);
-      })}`
+  const attributesCode = entity.data.attribute
+  console.log(attributesCode.nameId);
+  
+  return attributesCode;
 }
 
-function createAssociationTable() {
+function createAssociationTable() {}
 
-}
-
-function relationships() {
-
-}
+function relationships() {}
 
 function createForeingKeys() {}
