@@ -12,12 +12,9 @@ import 'reactflow/dist/style.css';
 import './App.css';
 import Entity from './components/Entity/Entity';
 import Toolbar from './components/Toolbar/Toolbar';
-import NavBar, {setDataBaseName} from './components/NavBar/NavBar';
+import Header, {setDataBaseName} from './components/Header/Header';
 import CustomEdge from './components/CustomEdge/CustomEdge';
 import createSQLCode from './generateCodeSQL'
-
-export let Entitys
-export let Relationships
 
 const nodeTypes = {
   entity: Entity,
@@ -82,9 +79,6 @@ function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  Entitys = nodes
-  Relationships = edges
-
   const onConnect = useCallback((connection) => {
     const { source, sourceHandle, target, targetHandle } = connection;
 
@@ -142,6 +136,24 @@ function App() {
     setDataBaseName("")
   }
 
+  const toolbarButtons = [
+    {
+      id: 'addNode',
+      onClick: addEntityNode,
+      content: <img id="image" src='src\images\AddNode.jpeg' />,
+    },
+    {
+      id: 'generateSQL',
+      onClick: createSQLCode,
+      content: <img id="image" src='src\images\SQLImage.jpeg' />,
+    },
+    {
+      id: 'clear',
+      onClick: clearWindow,
+      content: <img id="image" src='src\images\LimpezaCache.jpeg' />,
+    },
+  ];
+
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       <ReactFlow
@@ -159,8 +171,8 @@ function App() {
         <Controls />
         <MiniMap />
       </ReactFlow>
-      <NavBar value={"Dotum"} placeholder={"Entity"} />
-      <Toolbar addNode={addEntityNode} generateSQLCode={createSQLCode} clearWindow={clearWindow}/>
+      <Header value={"Dotum"} placeholder={"Entity"} />
+      <Toolbar buttons={toolbarButtons}/>
     </div>
   );
 }

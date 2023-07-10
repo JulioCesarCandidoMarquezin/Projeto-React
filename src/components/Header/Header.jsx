@@ -1,4 +1,4 @@
-import './NavBar.css';
+import './Header.css';
 
 export function getDataBaseName() {
   return document.getElementById("dataBaseName").value
@@ -9,7 +9,7 @@ export function setDataBaseName(newName) {
   return 
 }
 
-export default function NavBar({value, placeholder}) {
+export default function Header({value, placeholder}) {
   return (
     <div id="NavBar">
       <input id="dataBaseName" defaultValue={value} placeholder={placeholder}/>
