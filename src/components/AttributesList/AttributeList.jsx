@@ -1,6 +1,6 @@
 import SelectWithMySQLDataTypes from "../SelectWithMySQLDataTypes/SelectWithMySQLDataTypes";
 
-export default function AttributeList({ changePK, components, onClick }) {
+export default function AttributeList({ changePrimaryKey, components, onClick }) {
   return (
     <ul>
       {components.map((component) => {
@@ -8,7 +8,7 @@ export default function AttributeList({ changePK, components, onClick }) {
           <li key={component.id}>
             <button
               onClick={() => {
-                changePK(component.id);
+                changePrimaryKey(component.id);
               }}
             >
               X

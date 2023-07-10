@@ -33,12 +33,16 @@ export default function Entity(props) {
   function addNewForeingKey(nameId, typeId) {
     const name = document.getElementById(nameId);
     const type = document.getElementById(typeId);
-    if (checkIfInputIsValid(name.value)) {
+
+    const isValid = checkInput(name.value); 
+
+    if (checkInput(isValid)) {
       const newForeingKey = {
         id: Date.now(),
         name: name.value.trim(),
         type: type.value.trim(),
       };
+
       setForeingKeys([...foreingKeys, newForeingKey]);
       name.value = "";
       type.value = "char";
@@ -53,7 +57,7 @@ export default function Entity(props) {
     setForeingKeys(foreingKeys.filter((foreingKey) => foreingKey.id !== id));
   }
 
-  function changePK(id) {
+  function changePrimaryKey(id) {
     attributes.map((attribute) =>
       attribute.id === id ? (attribute.PK = true) : (attribute.PK = false)
     );
@@ -76,7 +80,7 @@ export default function Entity(props) {
         <hr />
 
         <AttributeList
-          changePK={changePK}
+          changePrimaryKey={changePrimaryKey}
           components={attributes}
           onClick={deleteAttribute}
         ></AttributeList>
