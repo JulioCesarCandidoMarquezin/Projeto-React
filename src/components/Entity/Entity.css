@@ -57,7 +57,7 @@ li button {
 }
 
 #newAttribute,
-#newForeingKey {
+#newForeignKey {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,22 +69,22 @@ li button {
 }
 
 #newAttribute button,
-#newForeingKey button,
+#newForeignKey button,
 #newAttribute input,
-#newForeingKey input {
+#newForeignKey input {
   flex-shrink: 0;
 }
 
 #newAttribute button,
-#newForeingKey button {
+#newForeignKey button {
   margin: 0;
   border: none;
 }
 
 #newAttribute input[type='text'],
-#newForeingKey input[type='text'],
+#newForeignKey input[type='text'],
 #newAttribute select,
-#newForeingKey select {
+#newForeignKey select {
   flex-grow: 1;
   width: 0;
   height: 100%;
@@ -92,7 +92,7 @@ li button {
 }
 
 #newAttribute input[type='text']:first-child,
-#newForeingKey input[type='text']:first-child {
+#newForeignKey input[type='text']:first-child {
   margin-right: 5px;
 }
 

@@ -1,21 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Entity.css";
 import { Handle, Position } from "reactflow";
 import AddAttribute from "../AddAttribute/AddAttribute";
-import AddForeingKey from "../AddForeingKey/AddForeingKey";
-import ForeingKeyList from "../ForeingKeyList/ForeingKeyList";
+import AddForeignKey from "../AddForeignKey/AddForeignKey";
+import ForeignKeyList from "../ForeignKeyList/ForeignKeyList";
 import AttributeList from "../AttributesList/AttributeList";
-import checkInput from "../../checkInput";
+import checkInput from "../../verifications/checkInput";
+import existElementWithDuplicatedName from "../../verifications/existElementWithDuplicatedName";
 
 export default function Entity(props) {
+  const [name, setName] = useState(props.data.name);
   const [attributes, setAttributes] = useState([]);
-  const [foreingKeys, setForeingKeys] = useState([]);
+  const [foreignKeys, setForeignKeys] = useState([]);
+
+  useEffect(() => {
+    props.data.childToParent({
+      name: name,
+      attributes: attributes,
+      foreignKeys: foreignKeys,
+    });
+  }, [name, attributes, foreignKeys]);
 
   function addNewAttribute(nameId, typeId) {
     const name = document.getElementById(nameId);
     const type = document.getElementById(typeId);
 
-    const isValid = checkInput(name.value); 
+    const isValid =
+      checkInput(name.value) &&
+      !existElementWithDuplicatedName(attributes, name.value);
 
     if (isValid) {
       const newAttribute = {
@@ -24,26 +36,27 @@ export default function Entity(props) {
         name: name.value.trim(),
         type: type.value.trim(),
       };
-      setAttributes([newAttribute]);
+
+      setAttributes([...attributes, newAttribute]);
       name.value = "";
       type.value = "char";
     }
   }
 
-  function addNewForeingKey(nameId, typeId) {
+  function addNewForeignKey(nameId, typeId) {
     const name = document.getElementById(nameId);
     const type = document.getElementById(typeId);
 
-    const isValid = checkInput(name.value); 
+    const isValid = checkInput(name.value);
 
-    if (checkInput(isValid)) {
-      const newForeingKey = {
+    if (isValid) {
+      const newForeignKey = {
         id: Date.now(),
         name: name.value.trim(),
         type: type.value.trim(),
       };
 
-      setForeingKeys([...foreingKeys, newForeingKey]);
+      setForeignKeys([...foreignKeys, newForeignKey]);
       name.value = "";
       type.value = "char";
     }
@@ -53,14 +66,23 @@ export default function Entity(props) {
     setAttributes(attributes.filter((attribute) => attribute.id !== id));
   }
 
-  function deleteForeingKey(id) {
-    setForeingKeys(foreingKeys.filter((foreingKey) => foreingKey.id !== id));
+  function deleteForeignKey(id) {
+    setForeignKeys(foreignKeys.filter((foreignKey) => foreignKey.id !== id));
   }
 
   function changePrimaryKey(id) {
-    attributes.map((attribute) =>
-      attribute.id === id ? (attribute.PK = true) : (attribute.PK = false)
+    setAttributes((prevAttributes) =>
+      prevAttributes.map((attribute) => {
+        if (attribute.id === id) {
+          return { ...attribute, PK: true };
+        }
+        return { ...attribute, PK: false };
+      })
     );
+  }
+
+  function changeName(e) {
+    setName(e.target.value);
   }
 
   return (
@@ -74,7 +96,8 @@ export default function Entity(props) {
         <input
           id="entityName"
           placeholder="Entity"
-          defaultValue={props.data.name}
+          onChange={changeName}
+          value={name}
         />
 
         <hr />
@@ -83,29 +106,29 @@ export default function Entity(props) {
           changePrimaryKey={changePrimaryKey}
           components={attributes}
           onClick={deleteAttribute}
-        ></AttributeList>
+        />
 
         <AddAttribute
           id={"newAttribute"}
           onClick={addNewAttribute}
           nameId={props.data.attribute.nameId}
           typeId={props.data.attribute.typeId}
-        ></AddAttribute>
+        />
 
         <hr />
 
-        <ForeingKeyList
+        <ForeignKeyList
           havePK={false}
-          components={foreingKeys}
-          onClick={deleteForeingKey}
-        ></ForeingKeyList>
+          components={foreignKeys}
+          onClick={deleteForeignKey}
+        />
 
-        <AddForeingKey
-          id={"newForeingKey"}
-          onClick={addNewForeingKey}
-          nameId={props.data.foreingKey.nameId}
-          typeId={props.data.foreingKey.typeId}
-        ></AddForeingKey>
+        <AddForeignKey
+          id={"newForeignKey"}
+          onClick={addNewForeignKey}
+          nameId={props.data.foreignKey.nameId}
+          typeId={props.data.foreignKey.typeId}
+        />
       </div>
     </div>
   );
