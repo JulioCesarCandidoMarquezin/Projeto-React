@@ -1,11 +1,11 @@
 import { getDataBaseName } from "./components/Header/Header";
 
 export default function createSQLCode(entitys) {
-  console.log(entitys[0]);
   let SQLCode = "";
   SQLCode = SQLCode.concat(createDataBase());
-  SQLCode = SQLCode.concat(`${createTables(entitys)}`);
-  alert(SQLCode);
+  SQLCode = SQLCode.concat(createTables(entitys));
+  navigator.clipboard.writeText(SQLCode);
+  alert("Texto copiado para a área de transferência");
   return SQLCode;
 }
 
@@ -17,23 +17,27 @@ function createDataBase() {
   return dataBaseCode;
 }
 
-function createTables(entitys, attributes, foreingKeys) {
+function createTables(entitys) {
   let tablesCode = "";
   entitys.forEach((entity) => {
-    console.log("attributes: ", attributes);
-    console.log("foreingKeys: ", foreingKeys);  
-    tablesCode = tablesCode.concat(
-      `CREATE TABLE ${entity.data.name} (${createAttributes(entity)});\n`
-    );
+    if (entity.attributes || entity.foreignKeys) {
+      tablesCode = tablesCode.concat(
+        `CREATE TABLE ${entity.name} (\n${createAttributes(
+          entity.attributes
+        )});\n`
+      );
+    }
   });
   return tablesCode;
 }
 
-function createAttributes(entity) {
-  const attributesCode = entity.data.attribute
-  console.log(attributesCode.nameId);
-  
-  return attributesCode;
+function createAttributes(attributes) {
+  const attributesCode = attributes.map((attribute) => {
+    const primaryKey = attribute.PK ? "PRIMARY KEY " : "";
+    return `${attribute.name} ${attribute.type} ${primaryKey}`;
+  });
+
+  return attributesCode.join(",\n");
 }
 
 function createAssociationTable() {}
