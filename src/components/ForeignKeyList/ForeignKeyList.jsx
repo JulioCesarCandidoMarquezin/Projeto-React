@@ -1,21 +1,21 @@
 import SelectWithMySQLDataTypes from "../SelectWithMySQLDataTypes/SelectWithMySQLDataTypes";
 
-export default function ForeingKeyList({ components, onClick }) {
+export default function ForeingKeyList({ setForeignKeys, foreignKeys, onClick }) {
   return (
     <ul>
-      {components.map((component) => {
+      {foreignKeys.map((foreignKey) => {
         return (
-          <li key={component.id}>
+          <li key={foreignKey.id}>
             <button
               onClick={() => {
-                onClick(component.id);
+                onClick(foreignKey.id, setForeignKeys, foreignKeys);
               }}
             >
               X
             </button>
-            <input defaultValue={component.name} />
+            <input defaultValue={foreignKey.name} />
             <SelectWithMySQLDataTypes
-              defaultValue={component.type}
+              defaultValue={foreignKey.type}
             ></SelectWithMySQLDataTypes>
           </li>
         );

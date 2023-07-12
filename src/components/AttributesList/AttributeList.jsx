@@ -1,14 +1,14 @@
 import SelectWithMySQLDataTypes from "../SelectWithMySQLDataTypes/SelectWithMySQLDataTypes";
 
-export default function AttributeList({ changePrimaryKey, components, onClick }) {
+export default function AttributeList({ changePrimaryKey, setAttributes, attributes, onClick }) {
   return (
     <ul>
-      {components.map((component) => {
+      {attributes.map((attribute) => {
         return (
-          <li key={component.id}>
+          <li key={attribute.id}>
             <button
               onClick={() => {
-                changePrimaryKey(component.id);
+                changePrimaryKey(attribute.id, setAttributes, attributes);
               }}
             >
               X
@@ -16,14 +16,14 @@ export default function AttributeList({ changePrimaryKey, components, onClick })
 
             <button
               onClick={() => {
-                onClick(component.id);
+                onClick(attribute.id, setAttributes, attributes);
               }}
             >
               X
             </button>
-            <input defaultValue={component.name} />
+            <input defaultValue={attribute.name} />
             <SelectWithMySQLDataTypes
-              defaultValue={component.type}
+              defaultValue={attribute.type}
             ></SelectWithMySQLDataTypes>
           </li>
         );

@@ -23,87 +23,61 @@ const nodeTypes = {
 const edgeTypes = {
   customEdge: CustomEdge,
 };
-const initialNodes = [
-  {
-    id: crypto.randomUUID(),
-    type: "entity",
-    position: {
-      x: 100,
-      y: 100,
-    },
-    data: {
-      name: "Funcionário",
-      childToParent: () => {},
-      attribute: {
-        nameId: `${crypto.randomUUID()}`,
-        typeId: `${crypto.randomUUID()}`,
-      },
-      foreignKey: {
-        id: `${crypto.randomUUID()}`,
-        nameId: `${crypto.randomUUID()}`,
-        typeId: `${crypto.randomUUID()}`,
-      },
-    },
-  },
-  {
-    id: crypto.randomUUID(),
-    type: "entity",
-    position: {
-      x: 700,
-      y: 100,
-    },
-    data: {
-      name: "Setor",
-      childToParent: () => {},
-      attribute: {
-        nameId: `${crypto.randomUUID()}`,
-        typeId: `${crypto.randomUUID()}`,
-      },
-      foreignKey: {
-        nameId: `${crypto.randomUUID()}`,
-        typeId: `${crypto.randomUUID()}`,
-      },
-    },
-  },
-];
-const initialEdges = [
-  {
-    id: crypto.randomUUID(),
-    source: initialNodes[0].id,
-    target: initialNodes[1].id,
-    type: "customEdge",
-  },
-];
 
 function App() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [entitys, setEntitys] = useState([]);
 
-  function childToParent(childData) {
-    setEntitys([...entitys, childData])
+  function updateEntitys(newEntity) {
+    console.log("Log da newEntity recebida pelo updateEntitys " + newEntity);
+    setEntitys([...entitys, newEntity]);
+    // if (entitys && entitys.length > 0)
+    //   setEntitys(
+    //     entitys.map((entity) => {
+    //       if (entity.id === newEntity.id) {
+    //         return newEntity;
+    //       }
+    //       return entity;
+    //     })
+    //   );
+    // else {
+    //   setEntitys([newEntity]);
+    // }
+  }
+
+  function deleteEntity(id) {
+    console.log("Log do id recebido pelo deleteEntity " + id);
+    const newEntitys = entitys.filter((entity) => entity.id !== id);
+    console.log(
+      "Log das novas entitys sem o elemento deletado por deleteEntity " +
+        newEntitys
+    );
+    setEntitys(newEntitys);
   }
 
   const addEntityNode = useCallback(() => {
+    const entityId = `entity-${crypto.randomUUID()}`;
+
     setNodes((nodes) => [
       ...nodes,
       {
         id: crypto.randomUUID(),
         type: "entity",
         position: {
-          x: 400,
-          y: 100,
+          x: 275,
+          y: 200,
         },
         data: {
           name: "Entity",
-          childToParent: childToParent,
+          updateEntitys: updateEntitys,
           attribute: {
-            nameId: `${crypto.randomUUID()}`,
-            typeId: `${crypto.randomUUID()}`,
+            nameId: `attribute-name-${entityId}`,
+            typeId: `attribute-type-${entityId}`,
           },
           foreignKey: {
-            nameId: `${crypto.randomUUID()}`,
-            typeId: `${crypto.randomUUID()}`,
+            nameId: `foreign-key-name-${entityId}`,
+            typeId: `foreign-key-type-${entityId}`,
           },
         },
       },
@@ -135,10 +109,19 @@ function App() {
   });
 
   const clearWindow = useCallback(() => {
+    setEntitys([]);
     setNodes([]);
     setEdges([]);
     setDataBaseName("");
+    console.log("Log dos entitys depois do clearWindow " + entitys);
   });
+
+  function handleClick() {
+    console.log(
+      "Log dos entitys que serão enviados para o createSQLCode " + entitys
+    );
+    createSQLCode(entitys);
+  }
 
   const toolbarButtons = [
     {
@@ -148,7 +131,9 @@ function App() {
     },
     {
       id: "generateSQL",
-      onClick: () => createSQLCode(entitys),
+      onClick: () => {
+        handleClick();
+      },
       content: <img id="image" src="src\images\SQLImage.jpeg" />,
     },
     {
@@ -165,12 +150,12 @@ function App() {
           nodeTypes={nodeTypes}
           nodes={nodes}
           onNodesChange={onNodesChange}
+          onNodesDelete={deleteEntity}
           edgeTypes={edgeTypes}
           edges={edges}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           connectionMode={ConnectionMode.Loose}
-          fitView={true}
         >
           <Background />
           <Controls />
