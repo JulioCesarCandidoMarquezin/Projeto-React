@@ -1,4 +1,4 @@
-import SelectWithMySQLDataTypes from "../SelectWithMySQLDataTypes/SelectWithMySQLDataTypes";
+import SelectWithMySQLDataTypes from "./SelectWithMySQLDataTypes";
 
 export default function ForeingKeyList({ setForeignKeys, foreignKeys, onClick }) {
   return (

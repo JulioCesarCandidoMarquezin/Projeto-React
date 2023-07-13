@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { getBezierPath, BaseEdge } from "reactflow";
-import "./CustomEdge.css";
+import "./../styles/CustomEdge.css";
+
+function verifyHandlePostion() {
+
+}
 
 function EdgeLabel({
   sourceX,

@@ -1,4 +1,4 @@
-import './Toolbar.css';
+import './../styles/Toolbar.css';
 
 export default function Toolbar( { buttons } ) {
   return (

@@ -10,11 +10,11 @@ import ReactFlow, {
   ReactFlowProvider,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import "./App.css";
-import Entity from "./components/Entity/Entity";
-import Toolbar from "./components/Toolbar/Toolbar";
-import Header, { setDataBaseName } from "./components/Header/Header";
-import CustomEdge from "./components/CustomEdge/CustomEdge";
+import "./styles/App.css";
+import Entity from "./components/Entity";
+import Toolbar from "./components/Toolbar";
+import Header, { setDataBaseName } from "./components/Header";
+import CustomEdge from "./components/CustomEdge";
 import createSQLCode from "./generateCodeSQL";
 
 const nodeTypes = {
@@ -29,21 +29,8 @@ function App() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [entitys, setEntitys] = useState([]);
 
-  function updateEntitys(newEntity) {
-    console.log("Log da newEntity recebida pelo updateEntitys " + newEntity);
-    setEntitys([...entitys, newEntity]);
-    // if (entitys && entitys.length > 0)
-    //   setEntitys(
-    //     entitys.map((entity) => {
-    //       if (entity.id === newEntity.id) {
-    //         return newEntity;
-    //       }
-    //       return entity;
-    //     })
-    //   );
-    // else {
-    //   setEntitys([newEntity]);
-    // }
+  function updateEntity(newEntity) {
+    setEntitys([newEntity, ...entitys]);
   }
 
   function deleteEntity(id) {
@@ -70,7 +57,7 @@ function App() {
         },
         data: {
           name: "Entity",
-          updateEntitys: updateEntitys,
+          updateEntity: updateEntity,
           attribute: {
             nameId: `attribute-name-${entityId}`,
             typeId: `attribute-type-${entityId}`,
@@ -109,19 +96,12 @@ function App() {
   });
 
   const clearWindow = useCallback(() => {
-    setEntitys([]);
-    setNodes([]);
-    setEdges([]);
+    setEntitys(() => []);
+    setNodes(() => []);
+    setEdges(() => []);
     setDataBaseName("");
     console.log("Log dos entitys depois do clearWindow " + entitys);
   });
-
-  function handleClick() {
-    console.log(
-      "Log dos entitys que serão enviados para o createSQLCode " + entitys
-    );
-    createSQLCode(entitys);
-  }
 
   const toolbarButtons = [
     {
@@ -132,7 +112,7 @@ function App() {
     {
       id: "generateSQL",
       onClick: () => {
-        handleClick();
+        createSQLCode(entitys);
       },
       content: <img id="image" src="src\images\SQLImage.jpeg" />,
     },

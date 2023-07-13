@@ -1,4 +1,4 @@
-import { getDataBaseName } from "./components/Header/Header";
+import { getDataBaseName } from "./components/Header";
 
 export default function createSQLCode(entitys) {
   console.log('Log das entitys recebidas pelo createSQLCode ' + entitys)

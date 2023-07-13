@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import "./Entity.css";
+import "../styles/Entity.css";
 import { Handle, Position } from "reactflow";
-import AddAttribute from "../AddAttribute/AddAttribute";
-import AddForeignKey from "../AddForeignKey/AddForeignKey";
-import ForeignKeyList from "../ForeignKeyList/ForeignKeyList";
-import AttributeList from "../AttributesList/AttributeList";
-import checkInput from "../../verifications/checkInput";
-import existElementWithDuplicatedName from "../../verifications/existElementWithDuplicatedName";
+import AddAttribute from "./AddAttribute";
+import AddForeignKey from "./AddForeignKey";
+import ForeignKeyList from "./ForeignKeyList";
+import AttributeList from "./AttributeList";
+import checkInput from "../verifications/checkInput";
+import existElementWithDuplicatedName from "../verifications/existElementWithDuplicatedName";
 
 function addNewAttribute(nameId, typeId, setAttributes, attributes) {
   const name = document.getElementById(nameId);
@@ -84,8 +84,8 @@ export default function Entity(props) {
       attributes: attributes,
       foreignKeys: foreignKeys,
     };
-    console.log('Log do objeto que será adicionado aos entitys a partir do useEffect do componente Entity ' + newEntity );
-    props.data.updateEntitys(newEntity);
+
+    props.data.updateEntity(newEntity);
   }, [name, attributes, foreignKeys]);
 
   return (
