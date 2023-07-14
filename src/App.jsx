@@ -28,6 +28,7 @@ function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [entitys, setEntitys] = useState([]);
+  const [relations, setRelations] = useState([]);
 
   function updateEntity(newEntity) {
     setEntitys((previewEntitys) => {
@@ -46,12 +47,7 @@ function App() {
   }
 
   function deleteEntity(id) {
-    console.log("Log do id recebido pelo deleteEntity " + id);
     const newEntitys = entitys.filter((entity) => entity.id !== id);
-    console.log(
-      "Log das novas entitys sem o elemento deletado por deleteEntity " +
-        newEntitys
-    );
     setEntitys(newEntitys);
   }
 
@@ -112,7 +108,6 @@ function App() {
     setNodes(() => []);
     setEdges(() => []);
     setDataBaseName("");
-    console.log("Log dos entitys depois do clearWindow " + entitys);
   });
 
   const toolbarButtons = [

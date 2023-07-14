@@ -69,7 +69,8 @@ function changePrimaryKey(id, setAttributes, attributes) {
 }
 
 function changeName(event, setName) {
-  setName(event.target.value);
+  const value = event.target.value;
+  if (value.match(/^[a-zA-Z][a-zA-Z0-9_]{0,29}$/) || value === "") setName(value);
 }
 
 export default function Entity(props) {
@@ -98,7 +99,7 @@ export default function Entity(props) {
       <div id="container">
         <input
           id="entityName"
-          autoComplete='false'
+          autoComplete="false"
           placeholder="Entity"
           onChange={(event) => changeName(event, setName)}
           value={name}
