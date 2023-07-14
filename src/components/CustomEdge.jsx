@@ -2,11 +2,71 @@ import React, { useState, useEffect } from "react";
 import { getBezierPath, BaseEdge } from "reactflow";
 import "./../styles/CustomEdge.css";
 
-function verifyHandlePostion() {
+const calculateSelectPosition = (position, otherPosition, positionType) => {
+  const minDistance = 10;
+  const maxDistanceRatio = 0.1;
 
-}
+  let selectPosition;
+
+  const diffX = otherPosition.x - position.x;
+  const diffY = otherPosition.y - position.y;
+
+  switch (positionType) {
+    case "top":
+      selectPosition = {
+        x:
+          diffX < 0
+            ? position.x - 35 - Math.abs(diffX) * maxDistanceRatio
+            : position.x - 35 + Math.abs(diffX) * maxDistanceRatio,
+        y:
+          position.y -
+          Math.max(minDistance, Math.abs(diffY) * maxDistanceRatio) -
+          25,
+      };
+      break;
+    case "bottom":
+      selectPosition = {
+        x:
+          diffX < 0
+            ? position.x - 35 - Math.abs(diffX) * maxDistanceRatio
+            : position.x - 35 + Math.abs(diffX) * maxDistanceRatio,
+        y:
+          position.y +
+          Math.max(minDistance, Math.abs(diffY) * maxDistanceRatio),
+      };
+      break;
+    case "left":
+      selectPosition = {
+        x:
+          position.x -
+          Math.max(minDistance, Math.abs(diffX) * maxDistanceRatio) -
+          70,
+        y:
+          diffY < 0
+            ? position.y - 15 - Math.abs(diffY) * maxDistanceRatio
+            : position.y - 15 + Math.abs(diffY) * maxDistanceRatio,
+      };
+      break;
+    case "right":
+      selectPosition = {
+        x:
+          position.x +
+          Math.max(minDistance, Math.abs(diffX) * maxDistanceRatio),
+        y:
+          diffY < 0
+            ? position.y - 15 - Math.abs(diffY) * maxDistanceRatio
+            : position.y - 15 + Math.abs(diffY) * maxDistanceRatio,
+      };
+      break;
+    default:
+      break;
+  }
+
+  return selectPosition;
+};
 
 function EdgeLabel({
+  id,
   sourceX,
   sourceY,
   targetX,
@@ -16,53 +76,41 @@ function EdgeLabel({
 }) {
   const [value, setValue] = useState({ source: "1:1", target: "1:1" });
 
-  const getSelectOffsetX = (position) => {
-    switch (position) {
-      case "left":
-        return -70;
-      case "right":
-        return 0;
-      default:
-        return 0;
-    }
-  };
-
-  const getSelectOffsetY = (position) => {
-    switch (position) {
-      case "top":
-        return -30;
-      case "bottom":
-        return 5;
-      default:
-        return -15;
-    }
-  };
-
-  const selectPositions = {
-    source: {
-      x: sourceX + getSelectOffsetX(sourcePosition),
-      y: sourceY + getSelectOffsetY(sourcePosition),
-    },
-    target: {
-      x:  targetX + getSelectOffsetX(targetPosition),
-      y: targetY + getSelectOffsetY(targetPosition),
-    },
-  };
-
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setValue({ ...value, [event.target.name]: event.target.value });
   };
+
+  const sourcePositionMap = { x: sourceX, y: sourceY };
+  const targetPositionMap = { x: targetX, y: targetY };
+
+  const selectSourcePosition = calculateSelectPosition(
+    sourcePositionMap,
+    targetPositionMap,
+    sourcePosition
+  );
+  const selectTargetPosition = calculateSelectPosition(
+    targetPositionMap,
+    sourcePositionMap,
+    targetPosition
+  );
 
   return (
     <>
       <foreignObject
+        key={`source-foreignObject-${id}`}
         className="foreignObject"
-        x={selectPositions.source.x}
-        y={selectPositions.source.y}
+        x={selectSourcePosition.x}
+        y={selectSourcePosition.y}
         width={70}
         height={70}
       >
-        <select className="select" value={value.source} onChange={handleChange}>
+        <select
+          key={`source-select-${id}`}
+          className="select"
+          name="source"
+          value={value.source}
+          onChange={handleChange}
+        >
           <option value="1:1">1:1</option>
           <option value="1:N">1:N</option>
           <option value="N:N">N:N</option>
@@ -70,13 +118,20 @@ function EdgeLabel({
       </foreignObject>
 
       <foreignObject
+        key={`target-foreignObject-${id}`}
         className="foreignObject"
-        x={selectPositions.target.x}
-        y={selectPositions.target.y}
+        x={selectTargetPosition.x}
+        y={selectTargetPosition.y}
         width={70}
         height={70}
       >
-        <select className="select" value={value.target} onChange={handleChange}>
+        <select
+          key={`target-select-${id}`}
+          className="select"
+          name="target"
+          value={value.target}
+          onChange={handleChange}
+        >
           <option value="1:1">1:1</option>
           <option value="1:N">1:N</option>
           <option value="N:N">N:N</option>
@@ -96,6 +151,7 @@ function CustomEdge({
   targetPosition,
 }) {
   const [edgePath] = getBezierPath({
+    id,
     sourceX,
     sourceY,
     sourcePosition,
@@ -106,9 +162,9 @@ function CustomEdge({
 
   return (
     <>
-      <BaseEdge id={id} path={edgePath}/>
+      <BaseEdge id={id} path={edgePath} />
       <EdgeLabel
-        key={`${id}-label`} 
+        key={`${id}-label`}
         sourceX={sourceX}
         sourceY={sourceY}
         targetX={targetX}
