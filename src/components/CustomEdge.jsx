@@ -16,8 +16,8 @@ const calculateSelectPosition = (position, otherPosition, positionType) => {
       selectPosition = {
         x:
           diffX < 0
-            ? position.x - 35 - Math.abs(diffX) * maxDistanceRatio
-            : position.x - 35 + Math.abs(diffX) * maxDistanceRatio,
+            ? position.x - 35 - Math.abs(diffX) * (maxDistanceRatio / 5)
+            : position.x - 35 + Math.abs(diffX) * (maxDistanceRatio / 5),
         y:
           position.y -
           Math.max(minDistance, Math.abs(diffY) * maxDistanceRatio) -
@@ -28,8 +28,8 @@ const calculateSelectPosition = (position, otherPosition, positionType) => {
       selectPosition = {
         x:
           diffX < 0
-            ? position.x - 35 - Math.abs(diffX) * maxDistanceRatio
-            : position.x - 35 + Math.abs(diffX) * maxDistanceRatio,
+            ? position.x - 35 - Math.abs(diffX) * (maxDistanceRatio / 5)
+            : position.x - 35 + Math.abs(diffX) * (maxDistanceRatio / 5),
         y:
           position.y +
           Math.max(minDistance, Math.abs(diffY) * maxDistanceRatio),
@@ -43,8 +43,8 @@ const calculateSelectPosition = (position, otherPosition, positionType) => {
           70,
         y:
           diffY < 0
-            ? position.y - 15 - Math.abs(diffY) * maxDistanceRatio
-            : position.y - 15 + Math.abs(diffY) * maxDistanceRatio,
+            ? position.y - 15 - Math.abs(diffY) * (maxDistanceRatio / 5)
+            : position.y - 15 + Math.abs(diffY) * (maxDistanceRatio / 5),
       };
       break;
     case "right":
@@ -54,8 +54,8 @@ const calculateSelectPosition = (position, otherPosition, positionType) => {
           Math.max(minDistance, Math.abs(diffX) * maxDistanceRatio),
         y:
           diffY < 0
-            ? position.y - 15 - Math.abs(diffY) * maxDistanceRatio
-            : position.y - 15 + Math.abs(diffY) * maxDistanceRatio,
+            ? position.y - 15 - Math.abs(diffY) * (maxDistanceRatio / 5)
+            : position.y - 15 + Math.abs(diffY) * (maxDistanceRatio / 5),
       };
       break;
     default:
