@@ -30,7 +30,19 @@ function App() {
   const [entitys, setEntitys] = useState([]);
 
   function updateEntity(newEntity) {
-    setEntitys([newEntity, ...entitys]);
+    setEntitys((previewEntitys) => {
+      if(previewEntitys.some((previewEntity) => previewEntity.id === newEntity.id)){
+        return previewEntitys.map((previewEntity) => {
+          if(previewEntity.id === newEntity.id){
+            return newEntity;
+          } else {
+            return previewEntity;
+          }
+        });
+      } else {
+        return [...previewEntitys, newEntity];
+      }
+    });
   }
 
   function deleteEntity(id) {
@@ -57,7 +69,7 @@ function App() {
         },
         data: {
           name: "Entity",
-          updateEntity: updateEntity,
+          updateEntity: (newEntity) => updateEntity(newEntity),
           attribute: {
             nameId: `attribute-name-${entityId}`,
             typeId: `attribute-type-${entityId}`,
