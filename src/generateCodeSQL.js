@@ -11,7 +11,7 @@ export default function createSQLCode(entitys) {
 }
 
 function createDataBase() {
-  let dataBaseCode = `CREATE DATABASE ${getDataBaseName()};\n`;
+  let dataBaseCode = `CREATE DATABASE ${getDataBaseName() !== "" ? getDataBaseName() : "dataBaseName"};\n`;
   let dataBaseName = getDataBaseName() !== "" ? getDataBaseName() : "dataBaseName";
   dataBaseCode = dataBaseCode.concat(`USE ${dataBaseName};\n`);
   return dataBaseCode;

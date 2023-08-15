@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import SelectWithMySQLDataTypes from "./SelectWithMySQLDataTypes";
 
 export default function AttributeList({ changePrimaryKey, setAttributes, attributes, onClick }) {

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import SelectWithMySQLDataTypes from "./SelectWithMySQLDataTypes";
 
 export default function AddForeignKey({

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import SelectWithMySQLDataTypes from "./SelectWithMySQLDataTypes";
 
 export default function AddAttribute({ id, onClick, nameId, typeId, setAttributes, attributes }) {

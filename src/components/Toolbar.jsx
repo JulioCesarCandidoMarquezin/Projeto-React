@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import './../styles/Toolbar.css';
 
 export default function Toolbar( { buttons } ) {

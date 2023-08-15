@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import ReactFlow, {
   ConnectionMode,
   addEdge,
@@ -10,7 +10,6 @@ import ReactFlow, {
   ReactFlowProvider,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import "./styles/App.css";
 import Entity from "./components/Entity";
 import Toolbar from "./components/Toolbar";
 import Header, { setDataBaseName } from "./components/Header";
@@ -28,7 +27,6 @@ function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [entitys, setEntitys] = useState([]);
-  const [relations, setRelations] = useState([]);
 
   function updateEntity(newEntity) {
     setEntitys((previewEntitys) => {
@@ -51,7 +49,7 @@ function App() {
     setEntitys(newEntitys);
   }
 
-  const addEntityNode = useCallback(() => {
+  const addEntityNode = () => {
     const entityId = `entity-${crypto.randomUUID()}`;
 
     setNodes((nodes) => [
@@ -77,9 +75,9 @@ function App() {
         },
       },
     ]);
-  });
+  };
 
-  const onConnect = useCallback((connection) => {
+  const onConnect = (connection) => {
     const { source, sourceHandle, target, targetHandle } = connection;
 
     const hasOutgoingEdge = edges.some(
@@ -101,14 +99,14 @@ function App() {
       type: "customEdge",
     };
     return setEdges((edges) => addEdge(newEdge, edges));
-  });
+  };
 
-  const clearWindow = useCallback(() => {
+  const clearWindow = () => {
     setEntitys(() => []);
     setNodes(() => []);
     setEdges(() => []);
     setDataBaseName("");
-  });
+  };
 
   const toolbarButtons = [
     {

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export default function SelectWithMySQLDataTypes({ id, defaultValue }) {
     return (
       <select id={id} defaultValue={defaultValue}>

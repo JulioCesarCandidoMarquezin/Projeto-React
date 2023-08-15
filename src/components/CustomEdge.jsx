@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+import { useState } from "react";
 import { getBezierPath, BaseEdge } from "reactflow";
 import "./../styles/CustomEdge.css";
 
